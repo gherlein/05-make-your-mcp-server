@@ -115,7 +115,7 @@ COPY go.mod .
 COPY main.go .
 
 RUN <<EOF
-go mod tidy 
+go mod tidy
 go build
 EOF
 
@@ -140,7 +140,7 @@ And now let's see how to use our new MCP server with `mcphost`:
 
 ## Using the MCP Server with `mcphost`
 
-First, we need to create a configuration file `mcp.json` for `mcphost`:
+First, we need to create a configuration file `mcp.docker.json` for `mcphost`:
 
 ```json
 {
@@ -161,7 +161,7 @@ First, we need to create a configuration file `mcp.json` for `mcphost`:
 Then we can use `mcphost` to use our MCP server and an LLM with Ollama, like this:
 
 ```bash
-mcphost --config ./mcp.json --model ollama:qwen2.5-coder:14b
+mcphost --config ./mcp.docker.json --model ollama:qwen2.5-coder:14b
 ```
 
 The MCP server is recognized by `mcphost`:
@@ -178,6 +178,26 @@ Wait a little bit:
 
 And here's the webpage content:
 ![mcp](imgs/05-mcp.png)
+
+## Alternate Without Docker
+
+Modify the configuration file, in this example mcp.json
+
+```json
+{
+  "mcpServers": {
+    "mcp-curl" :{
+      "command": "./mcp-curl"
+    }
+  }
+}
+```
+
+And then the command to run the MCP server:
+
+```bash
+mcphost --config ./mcp.json --model ollama:qwen2.5-coder:14b
+```
 
 ## Conclusion
 
